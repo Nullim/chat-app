@@ -1,22 +1,27 @@
+import dotenv from "dotenv"
+dotenv.config()
+
 import express, { Express, Request, Response } from "express"
+import cookieParser from "cookie-parser"
 import { createServer } from "node:http" 
 import cors from "cors"
-import dotenv from "dotenv"
 import { Server } from 'socket.io'
 import routerApi from "./router"
-import { PORT } from "./utils/constants"
-
-dotenv.config()
+import { BASE_URL, PORT } from "./utils/constants"
 
 const app: Express = express()
 app.use(express.json())
-app.use(cors())
+app.use(cookieParser())
+app.use(cors({
+  origin: BASE_URL,
+  credentials: true
+}))
 
 const server = createServer(app)
 
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:5173',
+    origin: BASE_URL,
     methods: ['GET', 'POST'],
   },
 })

@@ -36,9 +36,8 @@ export type RoleType = `${z.infer<typeof RoleSchema>}`
 
 export const LoginUserSchema = z
   .object({
-    id: z.string().uuid(),
-    username: z.string({ required_error: 'Username is required' }).trim(),
-    password: z.string({ required_error: 'Password is required' }),
+    username: z.string().min(6, "Invalid Username").trim(),
+    password: z.string().min(6, "Invalid Password"),
   })
 
 export type LoginUser = z.infer<typeof LoginUserSchema>
@@ -50,7 +49,7 @@ export const RegisterUserSchema = z
       .string({
         required_error: 'Username is required'
       })
-      .min(8, 'Username must have at least 8 characters')
+      .min(6, 'Username must have at least 8 characters')
       .max(20, 'Username cannot be longer than 20 characters')
       .trim(),
     password: z
@@ -105,9 +104,7 @@ export type Room = z.infer<typeof RoomSchema>
 
 export const MessageSchema = z.object({
   id: z.number().int(),
-  content: z.string({
-    required_error: "Cannot send an empty message"
-  }),
+  content: z.string(),
   userId: z.string(),
   roomId: z.number().int(),
 })

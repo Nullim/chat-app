@@ -30,13 +30,16 @@
 }
 
 .form-input {
+  display: block;
   outline: none;
-  border: none;
+
+  background-color: rgba(255, 255, 255, 0.07);
   color: white;
+
   height: 30px;
   padding: 0 10px;
-  display: block;
-  background-color: rgba(255, 255, 255, 0.07);
+
+  border: none;
   border-radius: 3px;
 }
 
@@ -48,18 +51,39 @@
 }
 
 .form-button {
-  width: 100%;
   background-color: rgba(5, 73, 245, 0.2);
   color: white;
-  padding: 15px 0;
-  font-size: 18px;
-  border-radius: 5px;
-  outline: none;
-  border: 1px solid white;
-  cursor: pointer;
-  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 
+  outline: none;
+  cursor: pointer;
+
+  width: 100%;
+  padding: 15px 0;
   margin-top: 10px;
+  font-size: 18px;
+  border: 1px solid white;
+  border-radius: 5px;
+
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+.form-button-loading {
+  background-color: rgba(123, 158, 247, 0.2);
+  cursor: not-allowed;
+}
+
+.loading::after {
+  display: inline-block;
+  animation: dotty steps(1, end) 1s infinite;
+  content: '';
+}
+
+@keyframes dotty {
+  0% { content: ''; }
+  25% { content: '.'; }
+  50% { content: '..'; }
+  75% { content: '...'; }
+  100% { content: '.'; }
 }
 
 @media screen and (max-width: 1000px) {
