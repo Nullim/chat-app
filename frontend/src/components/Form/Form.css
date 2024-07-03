@@ -8,10 +8,23 @@
 .form-wrapper {
   margin-top: 10px;
   width: 300px;
+  max-width: 300px;
 
   display: flex;
   text-align: left;
   flex-direction: column;
+}
+
+.form-utilities {
+  font-size: 18px;
+
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+
+  cursor: pointer;
+
+  font-weight: 600;
 }
 
 .form-body {
@@ -41,6 +54,16 @@
 
   border: none;
   border-radius: 3px;
+}
+.form-input::-webkit-outer-spin-button,
+.form-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.form-input[type=number] {
+  appearance: textfield;
+  -moz-appearance: textfield;
 }
 
 .form-button-container {

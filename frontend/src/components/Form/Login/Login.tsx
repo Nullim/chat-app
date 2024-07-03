@@ -1,11 +1,13 @@
 import { useState } from "react"
-import { PENDING_MESSAGE } from "../../../utils/constants"
-import { useAppDispatch, useAppSelector } from "../../../redux/hooks"
-import { login } from "../../../redux/thunks/authThunk"
 import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
 
-const Login = () => {
+import { PENDING_MESSAGE } from "../../../utils/constants"
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks"
+import { login } from "../../../redux/thunks/authThunk"
+import { ResetPassProps } from "../../../pages/home/Home"
+
+const Login: React.FC<ResetPassProps> = ({ setReset }) => {
   const [username, setUsername] = useState<string>('')
   const [password, setPassword] = useState<string>('')
 
@@ -21,7 +23,7 @@ const Login = () => {
       username: username,
       password: password
     }
-    
+
     toast.promise(
       dispatch(login(payload)).unwrap(),
       {
@@ -46,27 +48,28 @@ const Login = () => {
       <form className="form-body" onSubmit={handleSubmit}>
         <div className="form-wrapper">
           <label className="form-label" htmlFor="username">Username</label>
-          <input 
+          <input
             className="form-input"
-            name="username" 
-            type="text" 
-            value={username} 
-            onChange={(e) => setUsername(e.target.value)} 
+            name="username"
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </div>
         <div className="form-wrapper">
           <label className="form-label" htmlFor="pass">Password</label>
-          <input 
+          <input
             className="form-input"
-            name="pass" 
-            type="password" 
+            name="pass"
+            type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
+        <p className="form-utilities" onClick={() => setReset(true)}>Recover Password</p>
         <div className="form-button-container">
-        <button 
-            type="submit" 
+          <button
+            type="submit"
             className={`form-button ${auth.loginStatus === PENDING_MESSAGE ? 'form-button-loading' : ''}`}
             disabled={auth.loginStatus === PENDING_MESSAGE}
           >

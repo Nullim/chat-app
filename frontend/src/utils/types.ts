@@ -17,6 +17,11 @@ export interface PayloadError {
   type: string;
 }
 
+export interface PasswordConfirmation {
+  password: string;
+  confirmPassword: string;
+}
+
 export interface ValidationError {
   error: { message: string };
   payload: PayloadError[]

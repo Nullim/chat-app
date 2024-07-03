@@ -87,6 +87,33 @@ export const RegisterUserSchema = z
 
 export type RegisterUser = z.infer<typeof RegisterUserSchema>
 
+export const PasswordSchema = z
+  .string({
+    required_error: 'Password is required'
+  })
+  .min(6, 'Password must have at least 6 characters')
+  .superRefine((password, context) => {
+    const containsUppercase = (ch: string) => /[A-Z]/.test(ch);
+    const containsLowercase = (ch: string) => /[a-z]/.test(ch);
+    
+    let countOfUppercase = 0,
+        countOfLowercase = 0,
+        countOfNumbers = 0;
+    for (let i = 0; i < password.length; i++) {
+      const ch = password.charAt(i);
+      if (!isNaN(+ch)) countOfNumbers++;
+      else if (containsUppercase(ch)) countOfUppercase++;
+      else if (containsLowercase(ch)) countOfLowercase++;
+    }
+    if (countOfNumbers < 1 || countOfUppercase < 1 || countOfLowercase < 1) {
+      context.addIssue({
+        code: "custom",
+        message: "Password must have at least one number, an uppercase letter, and a lowercase letter",
+        path: []
+      });
+    }
+  });
+
 /////////////////////////////////////////
 // ROOM SCHEMA
 /////////////////////////////////////////

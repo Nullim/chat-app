@@ -1,10 +1,10 @@
 import { Navigate, Outlet, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 import { useAppDispatch, useAppSelector } from "../redux/hooks"
 import { setUser } from '../redux/slices/authSlice'
 import axiosInstance from '../api/axiosInstance';
-import { toast } from 'react-toastify';
 
 const Protected = () => {
   const [loading, setLoading] = useState(true)
@@ -24,7 +24,9 @@ const Protected = () => {
           }
         }
       } catch(err) {
-        console.error('Unexpected authorization error')
+        toast.error('Please log in to view this page.', {
+          toastId: 1
+        })
       } finally {
         setLoading(false)
       }
@@ -39,9 +41,6 @@ const Protected = () => {
   if(user) {
     return <Outlet />
   } else {
-    toast.error('Please log in to view this page.', {
-      toastId: 1
-    })
     return <Navigate to="/" replace />
   }
 }
