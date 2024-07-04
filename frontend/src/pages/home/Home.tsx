@@ -15,7 +15,7 @@ const Home = () => {
   const [reset, setReset] = useState<boolean>(false)
   return (
     <div className="home-container">
-      <div>
+      <div style={{ height: "20vh"}}>
         <h1>Welcome to Skyline!</h1>
         <h2>Connecting you with all others under the sky.</h2>
       </div>

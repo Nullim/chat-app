@@ -34,11 +34,11 @@ const Protected = () => {
     verifyUser()
   }, [dispatch, navigate])
 
-  if(loading) {
-    return null
+  if (loading) {
+    return "Redirecting..."
   }
 
-  if(user) {
+  if (user) {
     return <Outlet />
   } else {
     return <Navigate to="/" replace />

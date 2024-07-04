@@ -6,7 +6,6 @@
 }
 
 .form-wrapper {
-  margin-top: 10px;
   width: 300px;
   max-width: 300px;
 
@@ -16,15 +15,15 @@
 }
 
 .form-utilities {
-  font-size: 18px;
+  font-size: 15px;
+  margin-top: 10px;
 
   text-align: left;
   text-decoration: underline;
   text-underline-offset: 4px;
-
-  cursor: pointer;
-
   font-weight: 600;
+  
+  cursor: pointer;
 }
 
 .form-body {

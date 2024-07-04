@@ -6,6 +6,7 @@ import { PENDING_MESSAGE } from "../../../utils/constants"
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks"
 import { login } from "../../../redux/thunks/authThunk"
 import { ResetPassProps } from "../../../pages/home/Home"
+import { LoginUser, LoginUserSchema } from "../../../utils/zod/User"
 
 const Login: React.FC<ResetPassProps> = ({ setReset }) => {
   const [username, setUsername] = useState<string>('')
@@ -19,9 +20,16 @@ const Login: React.FC<ResetPassProps> = ({ setReset }) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    const payload = {
+    const payload: LoginUser = {
       username: username,
       password: password
+    }
+
+    try {
+      LoginUserSchema.parse(payload)
+      console.log('Valid')
+    } catch (err) {
+      return toast.error(err.issues[0].message)
     }
 
     toast.promise(
@@ -66,7 +74,7 @@ const Login: React.FC<ResetPassProps> = ({ setReset }) => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <p className="form-utilities" onClick={() => setReset(true)}>Recover Password</p>
+        <p className="form-utilities" onClick={() => setReset(true)}>Forgot your password?</p>
         <div className="form-button-container">
           <button
             type="submit"

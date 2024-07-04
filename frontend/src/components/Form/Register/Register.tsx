@@ -1,19 +1,36 @@
 import { useState } from "react"
+import { toast } from "react-toastify"
+
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks"
 import { register } from "../../../redux/thunks/authThunk"
 import { PENDING_MESSAGE } from "../../../utils/constants"
-import { toast } from "react-toastify"
+import { RegisterUser, RegisterUserSchema } from "../../../utils/zod/User"
 
 const Register = () => {
   const [email, setEmail] = useState<string>('')
   const [username, setUsername] = useState<string>('')
   const [password, setPassword] = useState<string>('')
+  const [confirmPassword, setConfirmPassword] = useState<string>('')
 
   const dispatch = useAppDispatch()
   const auth = useAppSelector(state => state.auth)
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+
+    const validationPayload: RegisterUser = {
+      email: email,
+      username: username,
+      password: password,
+      confirmPassword: confirmPassword,
+    }
+
+    try {
+      RegisterUserSchema.parse(validationPayload)
+      console.log('Valid')
+    } catch (err) {
+      return toast.error(err.issues[0].message)
+    }
 
     const payload = {
       email: email,
@@ -65,6 +82,16 @@ const Register = () => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <div className="form-wrapper">
+          <label className="form-label" htmlFor="confirmPass">Confirm Password</label>
+          <input
+            className="form-input"
+            name="confirmPass"
+            type="password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </div>
         <div className="form-button-container">

@@ -88,12 +88,15 @@ class AuthController {
 
       const existingUser = await prisma.user.findFirst({
         where: {
-          email: userData.email
-        }
+          OR: [
+            { email: userData.email },
+            { username: userData.username },
+          ],
+        },
       })
 
       if (existingUser) {
-        return res.status(409).json({ message: ERROR_MESSAGE, error: "Email is already linked to an existing account" })
+        return res.status(409).json({ message: ERROR_MESSAGE, error: "User already exists" })
       }
 
       userData.password = await bcrypt.hash(userData.password, 10)
