@@ -1,21 +1,23 @@
-import { useNavigate } from 'react-router-dom'
-import { useAppDispatch, useAppSelector } from '../../redux/hooks'
-import { logout } from '../../redux/thunks/authThunk'
+import { useState } from 'react'
+import ChatSidebar from '../../components/ChatSidebar/ChatSidebar'
+import MenuIcon from "../../components/Icons/Sidebar/Utilities/MenuIcon.svg?react"
+
 import './Chat.css'
 
 const Chat = () => {
-  const user = useAppSelector(state => state.auth.user)
-  const dispatch = useAppDispatch()
-  const navigate = useNavigate()
-
-  const handleLogout = () => {
-    dispatch(logout())
-    navigate('/')
-  }
+  const [sidebarOpen, setSidebarOpen] = useState<boolean>(false)
   return (
-    <div>
-      <div>Welcome! Your username is {user?.username || 'nonexistent! This should not happen.'}</div>
-      <button onClick={handleLogout}>Logout</button>
+    <div className='chat-container'>
+      <div className='chat-wrapper'>
+        <i className="sidebar-toggle" onClick={() => setSidebarOpen(!sidebarOpen)}><MenuIcon /></i>
+        <ChatSidebar sidebarOpen={sidebarOpen} />
+        <div className='chat-main-container'>
+          <main className='chat-body'></main>
+        </div>
+      </div>
+      <div className="links">
+        <a href="https://www.vecteezy.com/free-photos/background">Background Stock photos by Vecteezy</a>
+      </div>
     </div>
   )
 }

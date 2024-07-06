@@ -2,7 +2,7 @@ import { useState } from "react"
 import { toast } from "react-toastify"
 
 import { useAppDispatch, useAppSelector } from "../../../../redux/hooks"
-import { resetPassword } from "../../../../redux/thunks/authThunk"
+import { resetPassword } from "../../../../redux/auth/authThunk"
 import { PENDING_MESSAGE } from "../../../../utils/constants"
 import { ResetPassProps } from "../../../../pages/home/Home"
 
@@ -10,7 +10,7 @@ const PassReset: React.FC<ResetPassProps> = ({ setReset }) => {
   const [pass, setPass] = useState<string>('')
   const [confirmPass, setConfirmPass] = useState<string>('')
   const dispatch = useAppDispatch()
-  const auth = useAppSelector(state => state.auth)
+  const resetPassStatus = useAppSelector(state => state.auth.resetPassStatus)
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -61,10 +61,10 @@ const PassReset: React.FC<ResetPassProps> = ({ setReset }) => {
       <div className="form-button-container">
         <button
           type="submit"
-          className={`form-button ${auth.resetPassStatus === PENDING_MESSAGE ? 'form-button-loading' : ''}`}
-          disabled={auth.resetPassStatus === PENDING_MESSAGE}
+          className={`form-button ${resetPassStatus === PENDING_MESSAGE ? 'form-button-loading' : ''}`}
+          disabled={resetPassStatus === PENDING_MESSAGE}
         >
-          {auth.resetPassStatus === PENDING_MESSAGE ? <div className="loading">Loading</div> : <div>Send</div>}
+          {resetPassStatus === PENDING_MESSAGE ? <div className="loading">Loading</div> : <div>Send</div>}
         </button>
       </div>
     </form>

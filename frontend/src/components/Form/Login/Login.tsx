@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom"
 
 import { PENDING_MESSAGE } from "../../../utils/constants"
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks"
-import { login } from "../../../redux/thunks/authThunk"
+import { login } from "../../../redux/auth/authThunk"
 import { ResetPassProps } from "../../../pages/home/Home"
 import { LoginUser, LoginUserSchema } from "../../../utils/zod/User"
 
@@ -15,7 +15,7 @@ const Login: React.FC<ResetPassProps> = ({ setReset }) => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
 
-  const auth = useAppSelector(state => state.auth)
+  const loginStatus = useAppSelector(state => state.auth.loginStatus)
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -27,7 +27,6 @@ const Login: React.FC<ResetPassProps> = ({ setReset }) => {
 
     try {
       LoginUserSchema.parse(payload)
-      console.log('Valid')
     } catch (err) {
       return toast.error(err.issues[0].message)
     }
@@ -78,10 +77,10 @@ const Login: React.FC<ResetPassProps> = ({ setReset }) => {
         <div className="form-button-container">
           <button
             type="submit"
-            className={`form-button ${auth.loginStatus === PENDING_MESSAGE ? 'form-button-loading' : ''}`}
-            disabled={auth.loginStatus === PENDING_MESSAGE}
+            className={`form-button ${loginStatus === PENDING_MESSAGE ? 'form-button-loading' : ''}`}
+            disabled={loginStatus === PENDING_MESSAGE}
           >
-            {auth.loginStatus === PENDING_MESSAGE ? <div className="loading">Loading</div> : <div>Sign in</div>}
+            {loginStatus === PENDING_MESSAGE ? <div className="loading">Loading</div> : <div>Sign in</div>}
           </button>
         </div>
       </form>

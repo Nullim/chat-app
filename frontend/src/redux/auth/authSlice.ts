@@ -1,15 +1,15 @@
 import  { createSlice } from '@reduxjs/toolkit'
-import { login, register, logout, passRecovery, recoveryVerification, resetPassword } from '../thunks/authThunk'
-import { User } from '../../utils/types';
+import { login, register, logout, passRecovery, recoveryVerification, resetPassword } from './authThunk'
+import { Status, User } from '../../utils/types';
 import { ERROR_MESSAGE, PENDING_MESSAGE, SUCCESS_MESSAGE } from '../../utils/constants';
 
 type authState = {
-  registerStatus : 'Idle' | 'Pending' | 'Success' | 'Error';
-  loginStatus: 'Idle' | 'Pending' | 'Success' | 'Error';
-  logoutStatus: 'Idle' | 'Pending' | 'Success' | 'Error';
-  recoveryStatus: 'Idle' | 'Pending' | 'Success' | 'Error';
-  recoveryVerificationStatus: 'Idle' | 'Pending' | 'Success' | 'Error';
-  resetPassStatus: 'Idle' | 'Pending' | 'Success' | 'Error';
+  registerStatus : Status
+  loginStatus: Status
+  logoutStatus: Status
+  recoveryStatus: Status
+  recoveryVerificationStatus: Status
+  resetPassStatus: Status
   user: User | null;
   error: string | null;
 }

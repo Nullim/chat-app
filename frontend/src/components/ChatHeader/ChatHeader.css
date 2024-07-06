@@ -1,0 +1,54 @@
+.header-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background-color: #282b30;
+  user-select: none;
+  cursor: default;
+
+  border-bottom: 1px solid #5e6165;
+  border-radius: 20px 0 0 0;
+
+  @media screen and (max-width: 1280px) {
+    border-radius: 0;
+  }
+}
+
+.header-brand {
+  font-size: 20px;
+  font-weight: 700;
+
+  padding: 15px 0 15px 15px;
+
+  width: 240px;
+  height: 100%;
+  max-width: 240px;
+  max-height: 100%;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.header-inner {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+}
+
+.header-text-hidden {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.header-text-show {
+  transition: opacity 0.3s ease;
+  transition-delay: 0.5s;
+}
+
+.header-subtitle {
+  font-size: 15px;
+  font-weight: 100;
+}

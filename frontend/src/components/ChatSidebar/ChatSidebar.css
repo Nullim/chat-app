@@ -1,0 +1,176 @@
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 240px;
+  height: 100%;
+  padding: 10px;
+
+  z-index: 100;
+
+  display: flex;
+  flex-direction: column;
+
+  border-right: 1px solid #5e6165;
+  border-radius: 20px 0 0 20px;
+
+  background-color: #282b30;
+
+  font-family: "Be Vietnam Pro", Inter, system-ui, sans-serif;
+  user-select: none;
+
+  transition: width 0.5s ease-in-out, transform 0.3s ease-in-out;
+
+  @media screen and (max-width: 1280px) {
+    border-radius: 0;
+  }
+}
+
+.sidebar-close {
+  width: 60px;
+}
+
+.text-hidden {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.text-show {
+  transition: opacity 0.3s ease;
+  transition-delay: 0.5s;
+}
+
+.sidebar-list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1;
+}
+
+.sidebar-list-item {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  width: 100%;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.icon-container {
+  padding: 5px 8px 0px 8px;
+  width: fit-content;
+  height: 100%;
+  
+  transition: 0.25s ease;
+
+  &:hover,
+  &:focus {
+    background-color: #5e6165;
+  }
+}
+
+.sidebar-item-name {
+  display: inline-block;
+  position: relative;
+  
+  margin-left: 10px;
+  font-size: 18px;
+}
+
+.sidebar-footer {
+  border-top: 1px solid #5e6165;
+  margin-top: auto;
+  padding-top: 10px;
+  cursor: default;
+
+  overflow: hidden;
+  
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-text-hidden {
+  position: fixed;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.footer-text-show {
+  position: static;
+  transition: opacity 0.3s ease;
+}
+
+.sidebar-button-container {
+  display: flex;
+  align-items: center;
+}
+
+.sidebar-button {
+  border-radius: 6px;
+  border: 0;
+  padding: 5px 15px;
+  margin-top: 1em;
+  cursor: pointer;
+  outline: none;
+
+  font-size: 15px;
+
+  color: white;
+  background-color: #5e6165;
+
+  transition: 0.3s ease;
+
+  &:hover,
+	&:focus {
+		background-color: #4b4d50;
+	}
+}
+
+.no-design-button {
+  background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+
+  transition: 0.3s ease;
+}
+
+.sidebar-inner-button {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.sidebar-item-name::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #5e6165;
+  transform-origin: bottom left;
+  transition: transform 0.25s ease-out;
+}
+
+.sidebar-list-item:hover .sidebar-item-name::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}

@@ -2,7 +2,7 @@ import { useState } from "react"
 import { toast } from "react-toastify"
 
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks"
-import { register } from "../../../redux/thunks/authThunk"
+import { register } from "../../../redux/auth/authThunk"
 import { PENDING_MESSAGE } from "../../../utils/constants"
 import { RegisterUser, RegisterUserSchema } from "../../../utils/zod/User"
 
@@ -13,7 +13,7 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState<string>('')
 
   const dispatch = useAppDispatch()
-  const auth = useAppSelector(state => state.auth)
+  const registerStatus = useAppSelector(state => state.auth.registerStatus)
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -97,10 +97,10 @@ const Register = () => {
         <div className="form-button-container">
           <button 
             type="submit" 
-            className={`form-button ${auth.registerStatus === PENDING_MESSAGE ? 'form-button-loading' : ''}`}
-            disabled={auth.registerStatus === PENDING_MESSAGE}
+            className={`form-button ${registerStatus === PENDING_MESSAGE ? 'form-button-loading' : ''}`}
+            disabled={registerStatus === PENDING_MESSAGE}
           >
-            {auth.registerStatus === PENDING_MESSAGE ? <div className="loading">Loading</div> : <div>Register</div>}
+            {registerStatus === PENDING_MESSAGE ? <div className="loading">Loading</div> : <div>Register</div>}
           </button>
         </div>
       </form>

@@ -26,3 +26,5 @@ export interface ValidationError {
   error: { message: string };
   payload: PayloadError[]
 }
+
+export type Status = 'Idle' | 'Pending' | 'Success' | 'Error'

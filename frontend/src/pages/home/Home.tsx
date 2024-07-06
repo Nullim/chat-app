@@ -1,11 +1,16 @@
+import { useEffect, useState } from "react"
+import { useDispatch } from "react-redux"
+import { setUser } from "../../redux/auth/authSlice"
+import { useNavigate } from "react-router-dom"
+import { toast } from "react-toastify"
+
 import Login from "../../components/Form/Login/Login"
 import Register from "../../components/Form/Register/Register"
 import ResetPass from "../../components/Form/ResetPassword/ResetPass"
-import { useState } from "react"
 
 import "./Home.css"
 import "../../components/Form/Form.css"
-
+import axiosInstance from "../../api/axiosInstance"
 
 export type ResetPassProps = {
   setReset: React.Dispatch<React.SetStateAction<boolean>>
@@ -13,6 +18,32 @@ export type ResetPassProps = {
 
 const Home = () => {
   const [reset, setReset] = useState<boolean>(false)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const verifyUser = async () => {
+      try {
+        const response = await axiosInstance.post('auth/verify')
+
+        if(response.status === 200) {
+          const user = response.data
+          if (user) {
+            dispatch(setUser(user))
+            toast.info('Already Logged in, redirecting...', {
+              toastId: 1,
+              autoClose: 1500
+            })
+            navigate('/chat')
+          }
+        }
+      // eslint-disable-next-line no-empty
+      } catch {}
+    }
+    verifyUser()
+  }, [dispatch, navigate])
+
+
   return (
     <div className="home-container">
       <div style={{ height: "20vh"}}>

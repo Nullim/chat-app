@@ -7,18 +7,19 @@ import PassResetRequest from "./Forms/PassResetRequest"
 import PassResetVerification from "./Forms/PassResetVerification"
 
 const ResetPass: React.FC<ResetPassProps> = ({ setReset }) => {
-  const auth = useAppSelector(state => state.auth)
+  const recoveryStatus = useAppSelector(state => state.auth.recoveryStatus)
+  const recoveryVerificationStatus = useAppSelector(state => state.auth.recoveryVerificationStatus)
+  const resetPassStatus = useAppSelector(state => state.auth.resetPassStatus)
   return (
     <div className="form-container">
       <h3>Recover Password</h3>
-      {auth.recoveryStatus != SUCCESS_MESSAGE &&
+      {recoveryStatus != SUCCESS_MESSAGE &&
         <PassResetRequest setReset={setReset} />}
-      {auth.recoveryStatus === SUCCESS_MESSAGE &&
-        auth.recoveryVerificationStatus != SUCCESS_MESSAGE &&
+      {recoveryStatus === SUCCESS_MESSAGE &&
+        recoveryVerificationStatus != SUCCESS_MESSAGE &&
         <PassResetVerification />}
-      {auth.recoveryVerificationStatus === SUCCESS_MESSAGE && 
-        auth.recoveryStatus != 'Idle' &&
-        auth.resetPassStatus != SUCCESS_MESSAGE &&
+      {recoveryVerificationStatus === SUCCESS_MESSAGE && 
+        resetPassStatus != SUCCESS_MESSAGE &&
         <PassReset setReset={setReset} />
       }
     </div>

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { useAppDispatch, useAppSelector } from "../redux/hooks"
-import { setUser } from '../redux/slices/authSlice'
+import { setUser } from '../redux/auth/authSlice'
 import axiosInstance from '../api/axiosInstance';
 
 const Protected = () => {
