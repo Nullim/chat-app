@@ -1,8 +1,10 @@
-import jwt, { JwtPayload } from "jsonwebtoken"
-import { Request, Response, NextFunction } from "express"
-import { SECRET_KEY, REFRESH_KEY } from "../utils/constants"
+import jwt from "jsonwebtoken"
+import { Response, NextFunction } from "express"
 
-export const verifyToken = (req: Request, res: Response, next: NextFunction) => {
+import { SECRET_KEY, REFRESH_KEY } from "../utils/constants"
+import { ValidationRequest } from "../utils/types"
+
+export const verifyToken = (req: ValidationRequest, res: Response, next: NextFunction) => {
   const accessToken = req.cookies['accessToken'] as string
   const refreshToken = req.cookies['refreshToken'] as string
 
@@ -10,7 +12,7 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction) => 
   
   try {
     const { user } = jwt.verify(accessToken, SECRET_KEY) as { user: { id: string; username: string; } }
-    (req as any).user = user
+    req.user = user
     next()
   } catch (err) {
     if (!refreshToken) {
@@ -34,7 +36,7 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction) => 
           maxAge: 15 * 60 * 1000,
       });
 
-      (req as any).user = user
+      req.user = user
 
       next()
     } catch {

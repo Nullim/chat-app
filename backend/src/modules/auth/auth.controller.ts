@@ -4,11 +4,17 @@ import jwt from "jsonwebtoken"
 import crypto from "crypto"
 
 import { prisma } from "../../../prisma/prismaConfig"
-import { LoginUser, LoginUserSchema, PasswordSchema, RegisterUser, RegisterUserSchema } from "../../../prisma/generated/zod"
-import { ERROR_MESSAGE, RECOVERY_KEY, REFRESH_KEY, RESET_KEY, SECRET_KEY, SUCCESS_MESSAGE, VALIDATION_ERROR } from "../../utils/constants"
 import { transporter } from "../../utils/email"
-import { error } from "console"
-
+import { LoginUser, LoginUserSchema, PasswordSchema, RegisterUser, RegisterUserSchema } from "../../../prisma/generated/zod"
+import { 
+  ERROR_MESSAGE, 
+  RECOVERY_KEY, 
+  REFRESH_KEY, 
+  RESET_KEY, 
+  SECRET_KEY, 
+  SUCCESS_MESSAGE, 
+  VALIDATION_ERROR 
+} from "../../utils/constants"
 
 class AuthController {
   static async login(req: Request, res: Response) {
@@ -24,15 +30,10 @@ class AuthController {
           username: loginData.username
         }
       })
-
-      if (!user) {
-        return res.status(404).json({ message: ERROR_MESSAGE, error: "User not found" })
-      }
-
+      if (!user) return res.status(404).json({ message: ERROR_MESSAGE, error: "User not found" })
+        
       const passwordMatch = await bcrypt.compare(loginData.password, user.password)
-      if (!passwordMatch) {
-        return res.status(401).json({ message: ERROR_MESSAGE, error: "Invalid password" })
-      }
+      if (!passwordMatch) return res.status(401).json({ message: ERROR_MESSAGE, error: "Invalid password" })
 
       const accessToken = jwt.sign(
         { user: {

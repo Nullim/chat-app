@@ -13,8 +13,13 @@ model User {
   password String
   email    String    @unique
   role     Role      @default(USER)
-  Message  Message[]
+  messages Message[]
   rooms    Room[]    @relation("RoomToUser")
+//  notifications Notification[] @relation("UserNotifications")
+//  sentFriendships Friendship[] @relation("UserToFriendships")
+//  receivedFriendships Friendship[] @relation("FriendToFriendships")
+//  sentPrivateMessages PrivateMessage[] @relation("SenderToPrivateMessages")
+//  receivedPrivateMessages PrivateMessage[] @relation("RecipientToPrivateMessages")
 }
 
 enum Role {
@@ -30,10 +35,45 @@ model Room {
 }
 
 model Message {
-  id      Int    @id @default(autoincrement())
-  content String
-  userId  String
-  roomId  Int
-  room    Room   @relation(fields: [roomId], references: [id])
-  user    User   @relation(fields: [userId], references: [id])
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+  userId    String
+  roomId    Int
+  room      Room     @relation(fields: [roomId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
 }
+// TODO: Implement notification and friend system
+//
+// model Notification {
+//   id Int @id @default(autoincrement())
+//   userId String
+//   user User @relation("UserNotifications", fields: [userId], references: [id])
+//   isSeen Boolean @default(false)
+// }
+
+// model Friendship {
+//   id Int @id @default(autoincrement())
+//   requesterId String
+//   recipientId String
+//   status FriendshipStatus @default(PENDING)
+//   craetedAt DateTime @default(now())
+//   requester User @relation("UserToFriendships", fields: [requesterId], references: [id])
+//   recipient User @relation("FriendToFriendships", fields: [recipientId], references: [id])
+// }
+
+enum FriendshipStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+// model PrivateMessage {
+//   id Int @id @default(autoincrement())
+//   content String
+//   createdAt DateTime @default(now())
+//   senderId String
+//   recipientId String
+//   sender User @relation("SenderToPrivateMessages", fields: [senderId], references: [id])
+//   recipient User @relation("RecipientToPrivateMessages", fields: [recipientId], references: [id])
+// }

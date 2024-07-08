@@ -1,13 +1,16 @@
 import dotenv from "dotenv"
 dotenv.config()
 
-import express, { Express, Request, Response } from "express"
 import cookieParser from "cookie-parser"
-import { createServer } from "node:http" 
 import cors from "cors"
+import { createServer } from "node:http" 
 import { Server } from 'socket.io'
+import express, { Express, Request, Response } from "express"
+
+
 import routerApi from "./router"
 import { BASE_URL, PORT } from "./utils/constants"
+import { setupSocketHandlers } from "./websockets/socketHandlers"
 
 const app: Express = express()
 app.use(express.json())
@@ -24,6 +27,7 @@ const io = new Server(server, {
     origin: BASE_URL,
     methods: ['GET', 'POST'],
   },
+  connectionStateRecovery: {}
 })
 
 app.get("/", (req: Request, res: Response) => {
@@ -31,15 +35,7 @@ app.get("/", (req: Request, res: Response) => {
 })
 
 routerApi(app)
-
-/*
-io.on('connection', (socket) => {
-  console.log('An user connected with id', socket.id)
-  socket.on('disconnect', () => {
-    console.log(`User with id ${socket.id} disconnected`)
-  })
-})
-*/
+setupSocketHandlers(io)
 
 server.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`)
