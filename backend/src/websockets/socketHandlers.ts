@@ -26,7 +26,6 @@ export const setupSocketHandlers = (io: Server) => {
           }))
         }
         */
-
         rooms.forEach(room => {
           const joinEvent = `join${room.name}`
 
@@ -77,6 +76,8 @@ export const setupSocketHandlers = (io: Server) => {
         }
     })
 
-    socket.on('disconnect',)
+    socket.on('disconnect', (username: string, roomName: string) => {
+      io.to(roomName).emit('userDisconnect', `${username} has disconnected`)
+    })
   })
 }
